@@ -1,6 +1,6 @@
 {
   "name": "@lujiamu/gpm",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "simple git proxy manager",
   "main": "index.js",
   "module": "index.js",
@@ -8,6 +8,11 @@
   "bin": {
     "gpm": "dist/index.cjs"
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.MD"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsup --watch",
