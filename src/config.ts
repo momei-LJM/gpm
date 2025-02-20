@@ -5,11 +5,11 @@ import Log from "./log";
 
 const proxyFilePath = path.join(__dirname, "proxy.txt");
 const withHttp = (proxy: string): string => {
-  return `http//${proxy}`;
+  return `http://${proxy}`;
 };
 
 const withHttps = (proxy: string): string => {
-  return `https//${proxy}`;
+  return `https://${proxy}`;
 };
 
 export const saveProxy = (proxy: string): void => {
