@@ -1,12 +1,12 @@
 {
-  "name": "gpc",
-  "version": "1.1.4",
+  "name": "@lujiamu/gpm",
+  "version": "1.1.5",
   "description": "simple git proxy manager",
   "main": "index.js",
   "module": "index.js",
   "type": "module",
   "bin": {
-    "gpc": "dist/index.cjs"
+    "gpm": "dist/index.cjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
