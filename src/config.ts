@@ -13,8 +13,6 @@ const withHttps = (proxy: string): string => {
 };
 
 export const saveProxy = (proxy: string): void => {
-  console.log(2222, proxy);
-
   fs.writeFileSync(proxyFilePath, proxy, "utf8");
 };
 
