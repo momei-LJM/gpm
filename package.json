@@ -1,6 +1,6 @@
 {
   "name": "@lujiamu/gpm",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "simple git proxy manager",
   "main": "index.js",
   "module": "index.js",
@@ -15,7 +15,7 @@
     "build": "tsup",
     "prepublishOnly": "pnpm build",
     "release": "standard-version",
-    "pub": "pnpm release && npm publish"
+    "pub": "pnpm release && npm publish --access public"
   },
   "author": "momei",
   "license": "MIT",
