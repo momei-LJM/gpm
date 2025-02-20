@@ -1,0 +1,32 @@
+{
+  "name": "gpm",
+  "version": "1.0.0",
+  "description": "simple git proxy manager",
+  "main": "index.js",
+  "module": "index.js",
+  "type": "module",
+  "bin": {
+    "gpm": "dist/index.cjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsup --watch",
+    "start": "tsx src/index.ts",
+    "build": "tsup",
+    "prepublishOnly": "pnpm build",
+    "release": "standard-version"
+  },
+  "author": "momei",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "chalk": "^5.4.1",
+    "standard-version": "^9.5.0",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.3",
+    "typescript": "^5.0.0"
+  }
+}
