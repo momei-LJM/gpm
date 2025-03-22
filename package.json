@@ -1,6 +1,6 @@
 {
   "name": "@momei-x/gpm",
-  "version": "1.2.0",
+  "version": "1.1.0",
   "description": "simple git proxy manager",
   "main": "index.js",
   "module": "index.js",
@@ -21,6 +21,9 @@
     "prepublishOnly": "pnpm build",
     "release": "standard-version",
     "pub": "pnpm release && npm publish --access public"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "author": "momei",
   "license": "MIT",
