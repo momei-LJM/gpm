@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/momei-LJM/gpm/compare/v1.1.4...v1.2.0) (2025-03-22)
+
+
+### Features
+
+* 优化命令方式->子命令 ([9e634d3](https://github.com/momei-LJM/gpm/commit/9e634d3d74a314a7edc0b20be8f60bf79265fd3a))
+* update ([551042b](https://github.com/momei-LJM/gpm/commit/551042be73d70f5999ac363b5e0c3886f0257da4))
+
+
+### Bug Fixes
+
+* url ([1c08e6f](https://github.com/momei-LJM/gpm/commit/1c08e6f5a3b41a76d205ba12f2888caa35cc623b))
+
 ## [1.1.0](https://github.com/momei-LJM/gpm/compare/v1.1.4...v1.1.0) (2025-03-22)
 
 
