@@ -1,7 +1,7 @@
 # install
 
 ```shell
-npm i @lujiamu/gpm -g
+npm i @momei-x/gpm -g
 ```
 
 ## usage
