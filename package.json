@@ -1,5 +1,5 @@
 {
-  "name": "@lujiamu/gpm",
+  "name": "@momei-x/gpm",
   "version": "1.2.0",
   "description": "simple git proxy manager",
   "main": "index.js",
