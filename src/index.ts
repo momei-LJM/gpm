@@ -10,31 +10,38 @@ import {
   getGitProxyHttps,
 } from "./config";
 import Log from "./log";
-
+import * as pkg from "../package.json";
 const isHttpOrHttps = (proxy: string) => {
   return proxy.startsWith("http://") || proxy.startsWith("https://");
 };
-program.description("simple git proxy manager").version("0.0.1");
+program.description("simple git proxy manager").version(pkg.version);
 
 program
-  .option("-c, --config <proxy>", "init proxy")
-  .option("-g, --get", "get proxy")
-  .option("-s, --set", "set proxy")
-  .option("-u, --unset", "unset proxy")
-  .option("-http, --http", "get http proxy")
-  .option("-https, --https", "get https proxy")
-  .action((params) => {
-    if (Object.keys(params).length === 0) {
-      Log.warn("Please provide a valid option");
-      return;
-    }
-    const { set, get, unset, config, http, https } = params;
-    if (config) {
+  .command("config <proxy>")
+  .description("init proxy, this will be cached ")
+  .action((proxy) => {
+    if (proxy) {
       saveProxy(
-        isHttpOrHttps(config)
-          ? config.replace(/((http|https):\/\/)/, "")
-          : config
+        isHttpOrHttps(proxy) ? proxy.replace(/((http|https):\/\/)/, "") : proxy
       );
+    }
+  });
+
+program
+  .command("get")
+  .description("get proxy from config or git")
+  .option("-c, --config", "get proxy from config")
+  .option("-http, --http", "get http proxy from git")
+  .option("-https, --https", "get https proxy from git")
+  .action(({ config, http, https }) => {
+    if (config) {
+      if (!readProxy()) {
+        Log.error(
+          "No saved proxy found, you can set one using gpm config <proxy>"
+        );
+        return;
+      }
+      Log.success(readProxy()!);
       return;
     }
     if (http) {
@@ -43,20 +50,23 @@ program
     } else if (https) {
       getGitProxyHttps();
       return;
-    } else if (unset) {
-      unsetGitProxy();
-      return;
     }
+    getGitProxyHttp();
+    getGitProxyHttps();
+  });
 
-    if (!readProxy()) {
-      Log.error("No saved proxy found, you can set one using --config");
-      return;
-    }
-    if (set) {
-      setGitProxy(readProxy()!);
-    } else if (get) {
-      Log.success(readProxy()!);
-    }
+program
+  .command("use")
+  .description("use proxy config")
+  .action(() => {
+    setGitProxy(readProxy()!);
+  });
+
+program
+  .command("unuse")
+  .description("unuse proxy config")
+  .action(() => {
+    unsetGitProxy();
   });
 
 program.parse();
