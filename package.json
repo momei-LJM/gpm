@@ -15,9 +15,9 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsup --watch",
+    "dev": "tsdown --watch",
     "start": "tsx src/index.ts",
-    "build": "tsup",
+    "build": "tsdown",
     "prepublishOnly": "pnpm build",
     "release": "standard-version",
     "pub": "pnpm release && npm publish --access public"
@@ -34,7 +34,7 @@
     "@types/node": "^22.13.4",
     "chalk": "^5.4.1",
     "standard-version": "^9.5.0",
-    "tsup": "^8.3.6",
+    "tsdown": "^0.11.9",
     "tsx": "^4.19.3",
     "typescript": "^5.0.0"
   }
