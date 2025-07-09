@@ -14,7 +14,8 @@
     "README.MD"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsx tests/simple-test-runner.ts",
+    "test:unit": "tsx tests/simple-test-runner.ts",
     "dev": "tsdown --watch",
     "start": "tsx src/index.ts",
     "build": "tsdown",
@@ -28,14 +29,15 @@
   "author": "momei",
   "license": "MIT",
   "dependencies": {
-    "commander": "^10.0.0",
-    "chalk": "^5.4.1"
+    "chalk": "^5.4.1",
+    "commander": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.13.4",
     "standard-version": "^9.5.0",
     "tsdown": "^0.11.9",
     "tsx": "^4.19.3",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitest": "^3.2.4"
   }
 }
