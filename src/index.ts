@@ -10,7 +10,12 @@ import {
   getGitProxyHttps,
 } from "./config";
 import Log from "./log";
-import * as pkg from "../package.json";
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(readFileSync(join(__dirname, "../package.json"), "utf8"));
 const isHttpOrHttps = (proxy: string) => {
   return proxy.startsWith("http://") || proxy.startsWith("https://");
 };
@@ -59,7 +64,12 @@ program
   .command("use")
   .description("use proxy config")
   .action(() => {
-    setGitProxy(readProxy()!);
+    const proxy = readProxy();
+    if (!proxy) {
+      Log.error("No saved proxy found, you can set one using gpm config <proxy>");
+      return;
+    }
+    setGitProxy(proxy);
   });
 
 program
