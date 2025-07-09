@@ -6,7 +6,7 @@
   "module": "index.js",
   "type": "module",
   "bin": {
-    "gpm": "dist/index.cjs"
+    "gpm": "dist/index.js"
   },
   "files": [
     "dist",
