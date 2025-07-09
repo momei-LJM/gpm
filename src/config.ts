@@ -28,7 +28,7 @@ export const withHttps = (proxy: string): string => {
 export const saveProxy = (proxy: string): void => {
   try {
     fs.writeFileSync(proxyFilePath, proxy, "utf8");
-    Log.success(`Proxy configuration saved: ${proxy}`);
+    Log.config(`Proxy configuration saved: ${proxy}`);
   } catch (error) {
     Log.error(`Failed to save proxy configuration: ${(error as Error).message}`);
   }
@@ -58,7 +58,7 @@ export const setGitProxy = (proxy: string): void => {
   try {
     execSync(`git config --global http.proxy ${escapeShellArg(withHttp(proxy))}`);
     execSync(`git config --global https.proxy ${escapeShellArg(withHttps(proxy))}`);
-    Log.success(`Git proxy set to ${proxy}`);
+    Log.git(`Proxy set to ${proxy}`);
   } catch (error) {
     Log.error(`Error setting Git proxy: ${(error as Error).message}`);
   }
@@ -68,7 +68,7 @@ export const unsetGitProxy = (): void => {
   try {
     execSync("git config --global --unset http.proxy");
     execSync("git config --global --unset https.proxy");
-    Log.success("Git proxy settings removed");
+    Log.git("Proxy settings removed");
   } catch (error) {
     Log.error(`Error removing Git proxy: ${(error as Error).message}`);
   }
@@ -77,7 +77,7 @@ export const unsetGitProxy = (): void => {
 const getGitProxy = (type: 'http' | 'https'): void => {
   try {
     const proxy = execSync(`git config --global --get ${type}.proxy`, { encoding: 'utf8' });
-    Log.success(`${type.toUpperCase()} proxy: ${proxy.trim()}`);
+    Log.git(`${type.toUpperCase()} proxy: ${proxy.trim()}`);
   } catch (error) {
     Log.warn(`No ${type.toUpperCase()} proxy configured`);
   }
@@ -100,7 +100,7 @@ export const setNpmProxy = (proxy: string): void => {
   try {
     execSync(`npm config set proxy ${escapeShellArg(withHttp(proxy))}`);
     execSync(`npm config set https-proxy ${escapeShellArg(withHttps(proxy))}`);
-    Log.success(`NPM proxy set to ${proxy}`);
+    Log.npm(`Proxy set to ${proxy}`);
   } catch (error) {
     Log.error(`Error setting NPM proxy: ${(error as Error).message}`);
   }
@@ -110,7 +110,7 @@ export const unsetNpmProxy = (): void => {
   try {
     execSync("npm config delete proxy");
     execSync("npm config delete https-proxy");
-    Log.success("NPM proxy settings removed");
+    Log.npm("Proxy settings removed");
   } catch (error) {
     Log.error(`Error removing NPM proxy: ${(error as Error).message}`);
   }
@@ -122,13 +122,13 @@ export const getNpmProxy = (): void => {
     const httpsProxy = execSync("npm config get https-proxy", { encoding: 'utf8' }).trim();
 
     if (httpProxy && httpProxy !== 'null' && httpProxy !== 'undefined') {
-      Log.success(`NPM HTTP proxy: ${httpProxy}`);
+      Log.npm(`HTTP proxy: ${httpProxy}`);
     } else {
       Log.warn("No NPM HTTP proxy configured");
     }
 
     if (httpsProxy && httpsProxy !== 'null' && httpsProxy !== 'undefined') {
-      Log.success(`NPM HTTPS proxy: ${httpsProxy}`);
+      Log.npm(`HTTPS proxy: ${httpsProxy}`);
     } else {
       Log.warn("No NPM HTTPS proxy configured");
     }
@@ -141,7 +141,7 @@ export const getNpmProxy = (): void => {
 export const saveNpmRegistry = (registry: string): void => {
   try {
     fs.writeFileSync(npmRegistryFilePath, registry, "utf8");
-    Log.success(`NPM registry configuration saved: ${registry}`);
+    Log.registry(`Registry configuration saved: ${registry}`);
   } catch (error) {
     Log.error(`Failed to save NPM registry configuration: ${(error as Error).message}`);
   }
@@ -166,7 +166,7 @@ export const setNpmRegistry = (registry: string): void => {
   }
   try {
     execSync(`npm config set registry ${escapeShellArg(registry)}`);
-    Log.success(`NPM registry set to ${registry}`);
+    Log.registry(`Registry set to ${registry}`);
   } catch (error) {
     Log.error(`Error setting NPM registry: ${(error as Error).message}`);
   }
@@ -175,7 +175,7 @@ export const setNpmRegistry = (registry: string): void => {
 export const getNpmRegistry = (): void => {
   try {
     const registry = execSync("npm config get registry", { encoding: 'utf8' }).trim();
-    Log.success(`Current NPM registry: ${registry}`);
+    Log.registry(`Current registry: ${registry}`);
   } catch (error) {
     Log.error(`Error getting NPM registry: ${(error as Error).message}`);
   }
@@ -193,31 +193,35 @@ export const NPM_REGISTRIES = {
 };
 
 export const listNpmRegistries = (): void => {
-  Log.info("Available NPM registries:");
+  Log.title("Available NPM registries");
   Object.entries(NPM_REGISTRIES).forEach(([name, url]) => {
-    console.log(`  ${name}: ${url}`);
+    Log.pair(name, url, '📦');
   });
 };
 
 // 缓存文件管理
 export const showCacheInfo = (): void => {
-  Log.info("GPM cache file locations:");
-  console.log(`  Proxy config: ${proxyFilePath}`);
-  console.log(`  NPM registry config: ${npmRegistryFilePath}`);
+  Log.title("GPM cache information");
+
+  Log.subtitle("Cache file locations");
+  Log.pair("Proxy config", proxyFilePath, '🌐');
+  Log.pair("NPM registry config", npmRegistryFilePath, '📦');
+
+  Log.subtitle("Current configurations");
 
   // 检查文件是否存在并显示内容
   if (fs.existsSync(proxyFilePath)) {
     const proxyContent = fs.readFileSync(proxyFilePath, "utf8").trim();
-    console.log(`  Current proxy: ${proxyContent}`);
+    Log.status("Proxy", "configured", proxyContent);
   } else {
-    console.log(`  Current proxy: Not configured`);
+    Log.status("Proxy", "disabled");
   }
 
   if (fs.existsSync(npmRegistryFilePath)) {
     const registryContent = fs.readFileSync(npmRegistryFilePath, "utf8").trim();
-    console.log(`  Current NPM registry: ${registryContent}`);
+    Log.status("NPM registry", "configured", registryContent);
   } else {
-    console.log(`  Current NPM registry: Not configured`);
+    Log.status("NPM registry", "disabled");
   }
 };
 
@@ -236,11 +240,56 @@ export const clearCache = (): void => {
     }
 
     if (filesRemoved > 0) {
-      Log.success(`Cleared ${filesRemoved} cache file(s)`);
+      Log.complete(`Cleared ${filesRemoved} cache file(s)`);
     } else {
       Log.warn("No cache files to clear");
     }
   } catch (error) {
     Log.error(`Error clearing cache: ${(error as Error).message}`);
+  }
+};
+
+// 统一的代理配置保存函数
+export const saveProxyConfig = (proxy: string, type: 'git' | 'npm'): void => {
+  const processedProxy = processProxyUrl(proxy);
+
+  if (type === 'git') {
+    saveProxy(processedProxy);
+  } else if (type === 'npm') {
+    saveProxy(processedProxy); // NPM 也使用同一个代理配置
+  }
+};
+
+// 统一的代理应用函数
+export const useProxy = (type: 'git' | 'npm'): void => {
+  const proxy = readProxy();
+  if (!proxy) {
+    Log.error(`No saved proxy found, you can set one using gpm config --${type} <proxy>`);
+    return;
+  }
+
+  if (type === 'git') {
+    setGitProxy(proxy);
+  } else if (type === 'npm') {
+    setNpmProxy(proxy);
+  }
+};
+
+// 统一的代理移除函数
+export const unuseProxy = (type: 'git' | 'npm'): void => {
+  if (type === 'git') {
+    unsetGitProxy();
+  } else if (type === 'npm') {
+    unsetNpmProxy();
+  }
+};
+
+// 统一的代理查看函数
+export const getProxyStatus = (type: 'git' | 'npm'): void => {
+  if (type === 'git') {
+    getGitProxyHttp();
+    getGitProxyHttps();
+  } else if (type === 'npm') {
+    getNpmProxy();
   }
 };

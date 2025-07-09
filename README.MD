@@ -18,58 +18,53 @@ npm install -g @momei-x/gpm
 
 ## 🎯 使用方法
 
-### Git 代理管理
+### 基础代理管理
 
 ```bash
-# 配置代理（会自动去除 http:// 前缀）
-gpm config http://127.0.0.1:7890
-gpm config 127.0.0.1:7890
+# 配置代理（保存到缓存，不立即应用）
+gpm config http://127.0.0.1:7890       # 默认为 Git 代理
+gpm config --git 127.0.0.1:7890        # 明确指定为 Git 代理
+gpm config --npm 127.0.0.1:7890        # 配置为 NPM 代理
 
-# 应用代理到 Git
-gpm use
+# 应用缓存的代理配置
+gpm use                                 # 应用到 Git（默认）
+gpm use --git                          # 应用到 Git
+gpm use --npm                          # 应用到 NPM
+gpm use --all                          # 应用到 Git 和 NPM
 
-# 移除 Git 代理
-gpm unuse
+# 移除代理配置
+gpm unuse                              # 从 Git 移除（默认）
+gpm unuse --git                        # 从 Git 移除
+gpm unuse --npm                        # 从 NPM 移除
+gpm unuse --all                        # 从 Git 和 NPM 移除
 
-# 查看当前 Git 代理设置
-gpm get
-gpm get --http     # 仅查看 HTTP 代理
-gpm get --https    # 仅查看 HTTPS 代理
-gpm get --config   # 查看缓存的代理配置
-```
-
-### NPM 代理管理
-
-```bash
-# 设置 NPM 代理（使用缓存的代理配置）
-gpm npm proxy set
-
-# 移除 NPM 代理
-gpm npm proxy unset
-
-# 查看当前 NPM 代理设置
-gpm npm proxy get
+# 查看代理状态
+gpm get                                # 查看 Git 代理状态（默认）
+gpm get --git                          # 查看 Git 代理状态
+gpm get --npm                          # 查看 NPM 代理状态
+gpm get --all                          # 查看所有代理状态
+gpm get --config                       # 查看缓存的代理配置
 ```
 
 ### NPM 镜像管理
 
 ```bash
 # 设置 NPM 镜像（使用预设名称）
-gpm npm registry set taobao
-gpm npm registry set npm
-gpm npm registry set cnpm
+gpm registry set taobao
+gpm registry set npm
+gpm registry set cnpm
 
 # 设置自定义镜像
-gpm npm registry set https://registry.npm.your-domain.com/
+gpm registry set https://registry.npm.your-domain.com/
 
 # 使用已保存的镜像设置
-gpm npm registry use
+gpm registry use
 
 # 查看当前 NPM 镜像
-gpm npm registry get
+gpm registry get
 
 # 列出所有可用的预设镜像
-gpm npm registry list
+gpm registry list
 ```
 
 ### 缓存管理
@@ -104,28 +99,24 @@ gpm cache clear
 ### 场景 1: 设置完整的开发环境代理
 
 ```bash
-# 1. 配置代理
+# 1. 配置代理（保存到缓存）
 gpm config 127.0.0.1:7890
 
-# 2. 应用到 Git
-gpm use
+# 2. 一键应用到所有服务
+gpm use --all
 
-# 3. 应用到 NPM
-gpm npm proxy set
-
-# 4. 设置国内镜像加速
-gpm npm registry set taobao
+# 3. 设置国内镜像加速
+gpm registry set taobao
 ```
 
 ### 场景 2: 切换到公司网络
 
 ```bash
 # 移除所有代理设置
-gpm unuse
-gpm npm proxy unset
+gpm unuse --all
 
 # 使用公司镜像
-gpm npm registry set https://npm.company.com/
+gpm registry set https://npm.company.com/
 ```
 
 ### 场景 3: 重置到默认状态
@@ -135,7 +126,18 @@ gpm npm registry set https://npm.company.com/
 gpm cache clear
 
 # 恢复 NPM 官方镜像
-gpm npm registry set npm
+gpm registry set npm
+```
+
+### 场景 4: 分别管理 Git 和 NPM 代理
+
+```bash
+# 只为 Git 设置代理
+gpm config --git 127.0.0.1:7890
+gpm use --git
+
+# NPM 不使用代理，但使用国内镜像
+gpm registry set taobao
 ```
 
 ## 🛠️ 开发
