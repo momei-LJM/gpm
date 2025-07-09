@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.5.0 (2025-07-09)
+
+
+### Features
+
+* AI: npm代理&镜像 ([f444dd3](https://github.com/momei-LJM/gpm/commit/f444dd395e7b2f6b769f3d1a4ee6e9a61c740052))
+* init ([0911fae](https://github.com/momei-LJM/gpm/commit/0911fae3d9790f93db476ac38aee506c6111ddd8))
+* readme ([ed5fc88](https://github.com/momei-LJM/gpm/commit/ed5fc886154494b914e674991386e675b7f5d29a))
+* update ([f5ac07e](https://github.com/momei-LJM/gpm/commit/f5ac07e44b307f211407b74f9e726fa44b3d1a7a))
+* 优化命令方式->子命令 ([a6e72f7](https://github.com/momei-LJM/gpm/commit/a6e72f79f89ae5085a0cb530115527c7f5c94470))
+
+
+### Bug Fixes
+
+* url ([6b62b00](https://github.com/momei-LJM/gpm/commit/6b62b005cb012b15af805705cc3ab5b4601e56b2))
+
 ## [1.4.0](https://github.com/momei-LJM/gpm/compare/v1.2.0...v1.4.0) (2025-03-22)
 
 
