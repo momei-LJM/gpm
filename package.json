@@ -1,6 +1,6 @@
 {
   "name": "@momei-x/gpm",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "simple git proxy manager",
   "main": "index.js",
   "module": "index.js",
